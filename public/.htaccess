@@ -22,6 +22,11 @@ Options All -Indexes
     # Use a front controller
     # Check to see if the user is attempting to access a valid file or directory in the public folder,
     # such as an image or css document. If not, send the request to the front controller, index.php
+    #
+    # NOTE: The caret matches at the beginning without consuming a character. So even the empty string matches ^.
+    # Using exactly ^ as the regular expression allows for more performance, since typical regular expressions only
+    # compare the beginning of the URL and therefore don't need to look at every character of the URL. Worth adding
+    # that ^ or “the beginning of the line” happens to be after the leading slash, i.e. after the hostname and a slash.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php/$1 [L]
