@@ -1,9 +1,11 @@
 <?php
 
+define('BESPOKE_START', microtime(true));
+
 require __DIR__.'/../vendor/autoload.php';
 require __DIR__.'/../bootstrap.php';
 
-use App\Http\Request;
+use Bespoke\Http\Request;
 use App\Components\Dispatcher;
 
 $request = Request::getInstance();

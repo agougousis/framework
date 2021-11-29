@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http;
+namespace Bespoke\Http;
 
-use App\Exceptions\ContentTypeNotJsonException;
-use App\Exceptions\InvalidContentException;
+use Bespoke\Exceptions\InvalidContentException;
 
 class Request
 {
@@ -83,13 +82,11 @@ class Request
 
     protected function readBody()
     {
-        if (empty($_SERVER['CONTENT_TYPE']) || $_SERVER['CONTENT_TYPE'] != 'application/json') {
-            throw new ContentTypeNotJsonException();
+        $requestBody = file_get_contents('php://input');
+
+        if ($_SERVER['CONTENT_TYPE'] == 'application/json') {
+            $requestBody = json_decode($requestBody, true);
         }
-
-        $jsonRequestBody = file_get_contents('php://input');
-
-        $requestBody = json_decode($jsonRequestBody, true);
 
         if (is_null($requestBody)) {
             throw new InvalidContentException();

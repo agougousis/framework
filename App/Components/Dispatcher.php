@@ -2,19 +2,17 @@
 
 namespace App\Components;
 
-use App\Http\JsonResponse;
-use App\Http\Request;
-use App\Routing\Router;
+use Bespoke\Http\Request;
+use Bespoke\Http\Response;
+use Bespoke\Routing\Router;
 
 class Dispatcher
 {
     public function dispatch(Request $request)
     {
-        list($className, $methodName) = $this->getHandlerInfo($request);
+        [$className, $methodName] = $this->getHandlerInfo($request);
 
-        $response = $this->callHandler($className, $methodName);
-
-        $response->send();
+        $this->callHandler($className, $methodName);
     }
 
     /**
@@ -41,7 +39,7 @@ class Dispatcher
      *
      * @throws \Exception
      */
-    protected function callHandler(string $className, string $methodName) : JsonResponse
+    protected function callHandler(string $className, string $methodName)
     {
         $controller = $this->getHandlerInstance($className);
 
@@ -49,9 +47,9 @@ class Dispatcher
             throw new \Exception("Method '$methodName' does not exist in class '$className'!");
         }
 
+        /** @var Response $response */
         $response = call_user_func([$controller, $methodName]);
-
-        return $response;
+        $response->send();
     }
 
     /**

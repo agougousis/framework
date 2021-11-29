@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exceptions;
+namespace Bespoke\Exceptions;
 
-class InvalidContentException extends CustomException
+class InvalidContentException extends FrameworkException
 {
     const DEFAULT_MESSAGE = 'Your request contains invalid data format!';
 
@@ -10,10 +10,5 @@ class InvalidContentException extends CustomException
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = self::STATUS_CODE, Exception $previous = null) {
         parent::__construct($message, $code, $previous);
-    }
-
-    public function getStatusCode()
-    {
-        return self::STATUS_CODE;
     }
 }

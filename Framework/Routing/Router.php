@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Routing;
+namespace Bespoke\Routing;
 
-use App\Exceptions\InvalidRouteDefinitionException;
-use App\Exceptions\RouteNotFoundException;
-use App\Http\Request;
+use Bespoke\Exceptions\InvalidRouteDefinitionException;
+use Bespoke\Exceptions\RouteNotFoundException;
+use Bespoke\Http\Request;
 
 class Router
 {

@@ -1,5 +1,6 @@
 <?php
 
-use App\Routing\RouteManager;
+use Bespoke\Routing\RouteManager;
 
-RouteManager::addRoute('POST', '/messages', 'SmsMessageHandler@send');
+RouteManager::addRoute('GET', '/json', 'DummyHandler@json');
+RouteManager::addRoute('GET', '/xml', 'DummyHandler@xml');

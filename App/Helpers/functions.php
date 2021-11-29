@@ -1,5 +1,6 @@
 <?php
 
+use Bespoke\Exceptions\FrameworkException;
 use App\Exceptions\CustomException as CustomException;
 use App\Components\Logger;
 use App\Components\Container;
@@ -12,6 +13,9 @@ function customExceptionHandler(Throwable $exception)
 {
     if ($exception instanceof CustomException) {
         $statusCode = $exception->getStatusCode();
+        $message = $exception->getMessage();
+    } else if($exception instanceof FrameworkException) {
+        $statusCode = 500;
         $message = $exception->getMessage();
     } else {
         $statusCode = 500;

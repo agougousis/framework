@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exceptions;
+namespace Bespoke\Exceptions;
 
-class InvalidRouteDefinitionException extends CustomException
+class InvalidRouteDefinitionException extends FrameworkException
 {
     const DEFAULT_MESSAGE = 'Something wrong happened! Please, try again later.';
 
@@ -10,10 +10,5 @@ class InvalidRouteDefinitionException extends CustomException
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = self::STATUS_CODE, Exception $previous = null) {
         parent::__construct($message, $code, $previous);
-    }
-
-    public function getStatusCode()
-    {
-        return self::STATUS_CODE;
     }
 }

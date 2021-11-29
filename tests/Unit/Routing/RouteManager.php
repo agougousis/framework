@@ -1,6 +1,6 @@
 <?php
 
-use App\Routing\RouteManager;
+use Bespoke\Routing\RouteManager;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
