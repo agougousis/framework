@@ -6,7 +6,7 @@ require __DIR__.'/../vendor/autoload.php';
 require __DIR__.'/../bootstrap.php';
 
 use Bespoke\Http\Request;
-use App\Components\Dispatcher;
+use Bespoke\Components\Dispatcher;
 
 $request = Request::getInstance();
 

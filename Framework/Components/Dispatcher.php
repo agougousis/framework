@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Components;
+namespace Bespoke\Components;
 
 use Bespoke\Http\Request;
 use Bespoke\Http\Response;
 use Bespoke\Routing\Router;
+use Bespoke\Components\ReflectionResolver;
 
 class Dispatcher
 {
@@ -67,7 +68,8 @@ class Dispatcher
             throw new \Exception("Class '$fullyQualifiedClassName' does not exist!");
         }
 
-        $controller = new $fullyQualifiedClassName;
+        $resolver = new ReflectionResolver();
+        $controller = $resolver->resolve($fullyQualifiedClassName);
 
         return $controller;
     }

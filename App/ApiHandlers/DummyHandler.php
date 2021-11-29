@@ -2,13 +2,22 @@
 
 namespace App\ApiHandlers;
 
+use App\Entities\TimestampEntity;
 use DOMDocument;
 use Bespoke\Http\JsonResponse;
 use Bespoke\Http\XmlResponse;
 
 class DummyHandler
 {
-    public function json() {
+    private $creationTimestamp;
+
+    public function __construct(TimestampEntity $timestamp)
+    {
+        $this->creationTimestamp = $timestamp;
+    }
+
+    public function json()
+    {
         $responseData = [
             'param1' => 100,
             'param2' => 'John'
@@ -17,7 +26,8 @@ class DummyHandler
         return new JsonResponse(200, $responseData);
     }
 
-    public function xml() {
+    public function xml()
+    {
         $dom = new DOMDocument('1.0','UTF-8');
         $dom->formatOutput = true;
         $root = $dom->createElement('student');
