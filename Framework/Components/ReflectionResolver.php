@@ -2,8 +2,6 @@
 
 namespace Bespoke\Components;
 
-use Bespoke\Exceptions\ResolverException;
-
 class ReflectionResolver
 {
     /**
@@ -33,7 +31,7 @@ class ReflectionResolver
         $reflectionClass = new \ReflectionClass($object);
 
         if (($method = $reflectionClass->getMethod($methodName)) === null) {
-            throw new ResolverException('Method to be resolved was not found.');
+            throw new \Exception('Method to be resolved was not found.');
         }
 
         $resolvedParameters = $this->resolveReflectionMethodParameters($method);

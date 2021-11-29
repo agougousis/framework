@@ -2,7 +2,6 @@
 
 namespace Bespoke\Routing;
 
-use Bespoke\Exceptions\InvalidRouteDefinitionException;
 use Bespoke\Exceptions\RouteNotFoundException;
 use Bespoke\Http\Request;
 
@@ -13,7 +12,6 @@ class Router
      *
      * @return array [className, methodName]
      *
-     * @throws InvalidRouteDefinitionException
      * @throws RouteNotFoundException
      */
     public function detectRoute(Request $request) : array
@@ -36,8 +34,6 @@ class Router
      * @param string $path
      *
      * @return array [className, methodName]
-     *
-     * @throws InvalidRouteDefinitionException
      */
     private function extractHandlerInfo(array $routeList, string $path)
     {
@@ -45,7 +41,7 @@ class Router
         $handlerInfo       = explode('@', $handlerInfoString);
 
         if (count($handlerInfo) != 2) {
-            throw new InvalidRouteDefinitionException();
+            throw new \Exception('Invalid route definition.');
         }
 
         return $handlerInfo;

@@ -44,4 +44,9 @@ class DummyHandler
 
         return new XmlResponse(200, $xml);
     }
+
+    public function addUser()
+    {
+        return new JsonResponse(200, []);
+    }
 }

@@ -14,6 +14,8 @@ class Request
     /** @var  string */
     private $path;
 
+    private $headers;
+
     private $body;
 
     protected function __construct() { }
@@ -41,10 +43,24 @@ class Request
         return $this->path;
     }
 
+    public function getHeaders(): array
+    {
+        return $this->headers;
+    }
+
+    public function getHeader(string $headerName)
+    {
+        $lowerHeaderName = strtolower($headerName);
+
+        return  $this->headers[$lowerHeaderName] ?? null;
+    }
+
     protected function loadRequestInfo()
     {
         $this->detectHttpMethod();
         $this->detectPath();
+
+        $this->headers = getallheaders();
 
         $this->body = (in_array($this->method, ['POST', 'PUT', 'PATCH'])) ? $this->readBody() : null;
     }
@@ -84,14 +100,20 @@ class Request
     {
         $requestBody = file_get_contents('php://input');
 
-        if ($_SERVER['CONTENT_TYPE'] == 'application/json') {
+        if ($this->isJson()) {
             $requestBody = json_decode($requestBody, true);
-        }
 
-        if (is_null($requestBody)) {
-            throw new InvalidContentException();
+            // If fails to decode, notify through an exception.
+            if (is_null($requestBody)) {
+                throw new InvalidContentException('Invalid JSON body');
+            }
         }
 
         return $requestBody;
+    }
+
+    protected function isJson(): bool
+    {
+        return (isset($this->headers['Content-Type']) && ($this->headers['Content-Type'] === 'application/json'));
     }
 }

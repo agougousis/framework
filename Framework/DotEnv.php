@@ -2,8 +2,6 @@
 
 namespace Bespoke;
 
-use Bespoke\Exceptions\EnvironmentLoadingException;
-
 /**
  * Environment-specific configuration
  */
@@ -48,7 +46,7 @@ class DotEnv
 
         // Ensure the file is readable
         if (! is_readable($this->path)) {
-            throw new EnvironmentLoadingException("The .env file is not readable: {$this->path}");
+            throw new \Exception("The .env file is not readable: {$this->path}");
         }
 
         $vars = [];
@@ -121,8 +119,6 @@ class DotEnv
      *
      * This was borrowed from the excellent phpdotenv with very few changes.
      * https://github.com/vlucas/phpdotenv
-     *
-     * @throws EnvironmentLoadingException
      */
     protected function sanitizeValue(string $value): string
     {
@@ -160,7 +156,7 @@ class DotEnv
 
             // Unquoted values cannot contain whitespace
             if (preg_match('/\s+/', $value) > 0) {
-                throw new EnvironmentLoadingException('.env values containing spaces must be surrounded by quotes.');
+                throw new \Exception('.env values containing spaces must be surrounded by quotes.');
             }
         }
 
