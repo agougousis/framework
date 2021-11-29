@@ -2,6 +2,7 @@
 
 namespace App\ApiHandlers;
 
+use App\Entities\DummyEntity;
 use App\Entities\TimestampEntity;
 use DOMDocument;
 use Bespoke\Http\JsonResponse;
@@ -16,11 +17,12 @@ class DummyHandler
         $this->creationTimestamp = $timestamp;
     }
 
-    public function json()
+    public function json(DummyEntity $dummyEntity)
     {
         $responseData = [
             'param1' => 100,
-            'param2' => 'John'
+            'param2' => 'John',
+            'param3' => $dummyEntity->getDummyString()
         ];
 
         return new JsonResponse(200, $responseData);

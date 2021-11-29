@@ -2,6 +2,8 @@
 
 namespace Bespoke\Components;
 
+use Bespoke\Exceptions\ResolverException;
+
 class ReflectionResolver
 {
     /**
@@ -9,32 +11,51 @@ class ReflectionResolver
      * @return object
      * @throws \ReflectionException
      */
-    public function resolve(string $class): object
+    public function resolveClass(string $class): object
     {
         $reflectionClass = new \ReflectionClass($class);
 
-        // If the class does not defined a constructor, we can safely instantiate the class.
         if (($constructor = $reflectionClass->getConstructor()) === null) {
             return $reflectionClass->newInstance();
         }
 
-        // If the class defines a constructor without parameters, we can safely instantiate the class.
-        if (($params = $constructor->getParameters()) === []) {
+        $resolvedParameters = $this->resolveReflectionMethodParameters($constructor);
+
+        if ($resolvedParameters === []) {
             return $reflectionClass->newInstance();
         }
 
-        // Resolve constructor parameteres. If a parameter has a scalar type, assign to it the default value.
-        // If it has a class type, call the resolver for that class.
+        return $reflectionClass->newInstanceArgs($resolvedParameters);
+    }
+
+    public function resolveMethodParameters(object $object, string $methodName): array
+    {
+        $reflectionClass = new \ReflectionClass($object);
+
+        if (($method = $reflectionClass->getMethod($methodName)) === null) {
+            throw new ResolverException('Method to be resolved was not found.');
+        }
+
+        $resolvedParameters = $this->resolveReflectionMethodParameters($method);
+
+        return $resolvedParameters;
+    }
+
+    private function resolveReflectionMethodParameters(\ReflectionMethod $method): array
+    {
+        $params = $method->getParameters();
+
+        if ($params === []) {
+            return $params;
+        }
+
         $newInstanceParams = [];
         foreach ($params as $param) {
-            $newInstanceParams[] = $param->getClass() === null ? $param->getDefaultValue() : $this->resolve(
+            $newInstanceParams[] = $param->getClass() === null ? $param->getDefaultValue() : $this->resolveClass(
                 $param->getClass()->getName()
             );
         }
 
-        // Call the constructor passing the resolved parameters.
-        return $reflectionClass->newInstanceArgs(
-            $newInstanceParams
-        );
+        return $newInstanceParams;
     }
 }

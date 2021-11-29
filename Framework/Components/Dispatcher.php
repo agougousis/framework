@@ -5,10 +5,16 @@ namespace Bespoke\Components;
 use Bespoke\Http\Request;
 use Bespoke\Http\Response;
 use Bespoke\Routing\Router;
-use Bespoke\Components\ReflectionResolver;
 
 class Dispatcher
 {
+    private $resolver;
+
+    public function __construct()
+    {
+        $this->resolver = $resolver = new ReflectionResolver();
+    }
+
     public function dispatch(Request $request)
     {
         [$className, $methodName] = $this->getHandlerInfo($request);
@@ -48,8 +54,10 @@ class Dispatcher
             throw new \Exception("Method '$methodName' does not exist in class '$className'!");
         }
 
+        $methodParameters = $this->resolver->resolveMethodParameters($controller, $methodName);
+
         /** @var Response $response */
-        $response = call_user_func([$controller, $methodName]);
+        $response = $controller->{$methodName}(...$methodParameters);
         $response->send();
     }
 
@@ -68,8 +76,7 @@ class Dispatcher
             throw new \Exception("Class '$fullyQualifiedClassName' does not exist!");
         }
 
-        $resolver = new ReflectionResolver();
-        $controller = $resolver->resolve($fullyQualifiedClassName);
+        $controller = $this->resolver->resolveClass($fullyQualifiedClassName);
 
         return $controller;
     }
