@@ -2,6 +2,7 @@
 
 namespace Bespoke\Components;
 
+use App\Components\Container;
 use Bespoke\Http\Request;
 use Bespoke\Http\Response;
 use Bespoke\Routing\Router;
@@ -10,9 +11,9 @@ class Dispatcher
 {
     private $resolver;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->resolver = $resolver = new ReflectionResolver();
+        $this->resolver = $resolver = new ReflectionResolver($container);
     }
 
     public function dispatch(Request $request)

@@ -2,8 +2,17 @@
 
 namespace Bespoke\Components;
 
+use App\Components\Container;
+
 class ReflectionResolver
 {
+    private $container;
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * @param string $class
      * @return object
@@ -11,6 +20,10 @@ class ReflectionResolver
      */
     public function resolveClass(string $class): object
     {
+        if (($serviceInstance = $this->container->get($class)) !== null) {
+            return $serviceInstance;
+        }
+
         $reflectionClass = new \ReflectionClass($class);
 
         if (($constructor = $reflectionClass->getConstructor()) === null) {

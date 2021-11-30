@@ -50,7 +50,7 @@ function customExceptionHandler(Throwable $exception)
         $message = $exception->getMessage();
     } else {
         if (defined('APP_ENV') && APP_ENV !== 'production') {
-            $statusCode = $exception->getStatusCode();
+            $statusCode = $exception->getCode();
             $message = $exception->getMessage();
         } else {
             $statusCode = 500;

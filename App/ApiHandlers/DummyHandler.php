@@ -4,6 +4,7 @@ namespace App\ApiHandlers;
 
 use App\Entities\DummyEntity;
 use App\Entities\TimestampEntity;
+use Bespoke\Http\Request;
 use DOMDocument;
 use Bespoke\Http\JsonResponse;
 use Bespoke\Http\XmlResponse;
@@ -48,5 +49,12 @@ class DummyHandler
     public function addUser()
     {
         return new JsonResponse(200, []);
+    }
+
+    public function request(Request $request)
+    {
+        echo "<pre>";
+        var_dump($request);
+        die();
     }
 }

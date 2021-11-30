@@ -33,3 +33,4 @@ switch (APP_ENV) {
 }
 
 set_exception_handler('customExceptionHandler');
+set_error_handler('customErrorHandler');
