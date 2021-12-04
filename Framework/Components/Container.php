@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Components;
+namespace Bespoke\Components;
+
+use App\Components\Config;
 
 class Container
 {

@@ -5,7 +5,7 @@ namespace App\ServiceProviders;
 use App\Queues\FileQueue;
 use App\Queues\WebQueue;
 use Bespoke\Http\Request;
-use App\Components\Container;
+use Bespoke\Components\Container;
 
 class RequestServiceProvider
 {

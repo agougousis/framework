@@ -2,13 +2,15 @@
 
 namespace Bespoke\Components;
 
-use App\Components\Container;
 use Bespoke\Http\Request;
+use Bespoke\Routing\RouteManager;
 
 class Application extends Container
 {
     public function run()
     {
+        RouteManager::loadRouteFiles();
+
         $request = Request::getInstance();
         $this->registerObject(Request::class, $request);
 

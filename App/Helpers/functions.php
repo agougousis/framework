@@ -3,7 +3,7 @@
 use Bespoke\Exceptions\FrameworkException;
 use App\Exceptions\CustomException as CustomException;
 use App\Components\Logger;
-use App\Components\Container;
+use Bespoke\Components\Container;
 
 /**
  * Define an alternative implementation of getallheaders, in case we are not using Apache.

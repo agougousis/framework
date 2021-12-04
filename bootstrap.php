@@ -18,8 +18,6 @@ if (!defined('APP_ENV')) {
 
 Config::loadConfigurationFiles();
 
-RouteManager::loadRouteFiles();
-
 switch (APP_ENV) {
     case 'production':
         ini_set('display_errors', '0');

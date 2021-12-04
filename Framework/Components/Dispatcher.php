@@ -2,7 +2,6 @@
 
 namespace Bespoke\Components;
 
-use App\Components\Container;
 use Bespoke\Http\Request;
 use Bespoke\Http\Response;
 use Bespoke\Routing\Router;

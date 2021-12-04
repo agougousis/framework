@@ -2,8 +2,6 @@
 
 namespace Bespoke\Components;
 
-use App\Components\Container;
-
 class ReflectionResolver
 {
     private $container;
