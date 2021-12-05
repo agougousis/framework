@@ -1,6 +1,6 @@
 <?php
 
-use App\Components\Config;
+use Bespoke\Components\Config;
 use Bespoke\DotEnv;
 
 define('ROOT_PATH', __DIR__);

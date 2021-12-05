@@ -2,7 +2,7 @@
 
 namespace Bespoke\ServiceProviders;
 
-use App\Components\Config;
+use Bespoke\Components\Config;
 use Bespoke\Components\Container;
 use Bespoke\Services\FileLogger;
 use Bespoke\Services\MonologLogger;
@@ -13,9 +13,16 @@ class FileLoggerProvider
 {
     private static $isSingleton = true;
 
-    public static function isSingleton()
+    private static $canBeReplaced = true;
+
+    public static function isSingleton(): bool
     {
         return self::$isSingleton;
+    }
+
+    public static function canBeReplaced(): bool
+    {
+        return self::$canBeReplaced;
     }
 
     public static function build(Container $container) : LoggerInterface

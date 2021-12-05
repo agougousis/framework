@@ -2,7 +2,7 @@
 
 namespace Bespoke\Routing;
 
-use App\Components\Config;
+use Bespoke\Components\Config;
 use DirectoryIterator;
 
 class RouteManager

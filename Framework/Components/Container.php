@@ -2,7 +2,7 @@
 
 namespace Bespoke\Components;
 
-use App\Components\Config;
+use Bespoke\Components\Config;
 
 class Container
 {
@@ -34,7 +34,9 @@ class Container
 
         foreach($serviceMappings as $serviceName => $serviceProvider) {
             if (class_exists($serviceProvider)) {
-                $this->services[$serviceName] = $serviceProvider;
+                if (!array_key_exists($serviceName, $this->services) || $serviceProvider::canBeReplaced()) {
+                    $this->services[$serviceName] = $serviceProvider;
+                }
             }
         }
     }
@@ -46,7 +48,7 @@ class Container
 
     public function get($serviceName)
     {
-        if (!key_exists($serviceName, $this->services)) {
+        if (!array_key_exists($serviceName, $this->services)) {
             return null;
         }
 

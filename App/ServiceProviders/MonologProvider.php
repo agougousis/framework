@@ -7,15 +7,22 @@ use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger as MonologLogger;
 use Psr\Log\LoggerInterface;
-use App\Components\Config;
+use Bespoke\Components\Config;
 
 class MonologProvider
 {
     private static $isSingleton = true;
 
+    private static $canBeReplaced = true;
+
     public static function isSingleton()
     {
         return self::$isSingleton;
+    }
+
+    public static function canBeReplaced(): bool
+    {
+        return self::$canBeReplaced;
     }
 
     public static function build(Container $container) : LoggerInterface
