@@ -4,6 +4,7 @@ use Bespoke\Components\Config;
 use Bespoke\DotEnv;
 
 define('ROOT_PATH', __DIR__);
+define('FRAMEWORK_PATH', __DIR__ . '/Framework');
 define('CONFIG_PATH', __DIR__.'/config');
 
 require ROOT_PATH . '/Framework/Helpers/functions.php';

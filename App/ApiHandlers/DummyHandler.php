@@ -53,6 +53,8 @@ class DummyHandler
 
     public function request(Request $request)
     {
+        throw new \Exception('hello');
+
         echo "<pre>";
         var_dump($request);
         die();

@@ -20,7 +20,8 @@ class Container
         if (!isset(self::$instance)) {
             $container = new static;
 
-            $container->loadServices();
+            $container->loadFrameworkServices();
+            $container->loadApplicationServices();
 
             self::$instance = $container;
         }
@@ -28,10 +29,22 @@ class Container
         return self::$instance;
     }
 
-    protected function loadServices()
+    protected function loadFrameworkServices()
+    {
+        $serviceMappings = require FRAMEWORK_PATH.'/Configuration/services.php';
+
+        $this->loadServices($serviceMappings);
+    }
+
+    protected function loadApplicationServices()
     {
         $serviceMappings = Config::get('services');
 
+        $this->loadServices($serviceMappings);
+    }
+
+    protected function loadServices($serviceMappings)
+    {
         foreach($serviceMappings as $serviceName => $serviceProvider) {
             if (class_exists($serviceProvider)) {
                 if (!array_key_exists($serviceName, $this->services) || $serviceProvider::canBeReplaced()) {

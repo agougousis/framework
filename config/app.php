@@ -6,7 +6,8 @@ return [
             'directory' => ROOT_PATH . '/logs'
         ],
         'monolog' => [
-            'target' => 'syslog'
+            'target' => 'file', // 'syslog' , 'file'
+            'directory' => ROOT_PATH . '/logs'
         ]
     ]
 ];
