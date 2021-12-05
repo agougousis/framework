@@ -2,10 +2,10 @@
 
 namespace Bespoke\Components;
 
-use Bespoke\Exceptions\FrameworkException;
 use App\Exceptions\CustomException as CustomException;
-use App\Components\Logger;
+use Bespoke\Exceptions\FrameworkException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 class ExceptionManager
 {
@@ -54,7 +54,8 @@ class ExceptionManager
                 $message = 'Something wrong happened! Please, try again later.';
             }
 
-            $this->logger->log(Logger::ERROR_LOG_LEVEL, $exception->getMessage());
+            $logContext = $this->gatherExceptionData($exception);
+            $this->logger->log(LogLevel::ERROR, $exception->getMessage(), $logContext);
         }
 
         http_response_code($statusCode);
@@ -66,5 +67,25 @@ class ExceptionManager
         ];
 
         echo json_encode($responseData);
+    }
+
+    private function gatherExceptionData(\Throwable $throwable): array
+    {
+        $data = [
+            'code' => $throwable->getCode(),
+            'message' => $throwable->getMessage(),
+            'exceptionClass' => get_class($throwable),
+            'called' => [
+                'class' => $throwable->getTrace()[0]['class'],
+                'function' => $throwable->getTrace()[0]['function']
+            ],
+            'occured' => [
+                'file' => $throwable->getFile(),
+                'line' => $throwable->getLine()
+            ],
+            'trace' => explode("\n", $throwable->getTraceAsString())
+        ];
+
+        return $data;
     }
 }
