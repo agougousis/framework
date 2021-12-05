@@ -2,7 +2,6 @@
 
 namespace Bespoke\Components;
 
-use Bespoke\Http\Request;
 use Bespoke\Routing\RouteManager;
 
 class Application extends Container
@@ -11,8 +10,7 @@ class Application extends Container
     {
         RouteManager::loadRouteFiles();
 
-        $request = Request::getInstance();
-        $this->registerObject(Request::class, $request);
+        $request = $this->get('request');
 
         $dispatcher = new Dispatcher($this);
         $dispatcher->dispatch($request);

@@ -1,13 +1,12 @@
 <?php
 
 use App\Components\Config;
-use Bespoke\Routing\RouteManager;
 use Bespoke\DotEnv;
 
 define('ROOT_PATH', __DIR__);
 define('CONFIG_PATH', __DIR__.'/config');
 
-require ROOT_PATH.'/App/Helpers/functions.php';
+require ROOT_PATH . '/Framework/Helpers/functions.php';
 
 $env = new DotEnv(ROOT_PATH);
 $env->load();
@@ -30,5 +29,3 @@ switch (APP_ENV) {
         break;
 }
 
-set_exception_handler('customExceptionHandler');
-set_error_handler('customErrorHandler');

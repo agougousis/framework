@@ -24,7 +24,7 @@ class RouteManager
      */
     public static function loadRouteFiles()
     {
-        $routesDirectory = Config::get('routesDirectory');
+        $routesDirectory = Config::get('paths.routesDirectory');
 
         $dirIterator = new DirectoryIterator($routesDirectory);
 

@@ -44,33 +44,25 @@ class Container
         $this->services[$serviceName] = $serviceProviderClass;
     }
 
-    public function registerObject($serviceName, $object)
-    {
-        if (isset($this->singletons[$serviceName])) {
-            throw new \Exception('You cannot register a singleton twice.');
-        }
-
-        $this->singletons[$serviceName] = $object;
-    }
-
     public function get($serviceName)
     {
-        if (isset($this->singletons[$serviceName])) {
-             return $this->singletons[$serviceName];
+        if (!key_exists($serviceName, $this->services)) {
+            return null;
         }
 
-        if (key_exists($serviceName, $this->services)) {
-            $serviceProviderClass = $this->services[$serviceName];
+        $serviceProviderClass = $this->services[$serviceName];
+        $isSingleton          = $serviceProviderClass::isSingleton();
 
-            try {
-                $service = $serviceProviderClass::build($this);
-            } catch (\Exception $ex) {
-                die($ex->getMessage());
-            }
-
-            return $service;
+        if ($isSingleton && isset($this->singletons[$serviceName])) {
+            return $this->singletons[$serviceName];
         }
 
-        return null;
+        $service = $serviceProviderClass::build($this);
+        if ($isSingleton) {
+            $this->singletons[$serviceName] = $service;
+        }
+
+        return $service;
+
     }
 }
