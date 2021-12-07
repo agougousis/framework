@@ -2,13 +2,15 @@
 
 namespace Bespoke\Components;
 
-use Bespoke\Components\Config;
+use Bespoke\Exceptions\InvalidServiceDefinitionException;
 
 class Container
 {
     private static $instance;
 
     private $services = [];
+
+    private $aliases = [];
 
     private $singletons = [];
 
@@ -31,19 +33,21 @@ class Container
 
     protected function loadFrameworkServices()
     {
-        $serviceMappings = require FRAMEWORK_PATH.'/Configuration/services.php';
+        $services = require FRAMEWORK_PATH.'/Configuration/services.php';
 
-        $this->loadServices($serviceMappings);
+        $this->loadServices($services['mappings']);
+        $this->loadAliases($services['aliases']);
     }
 
     protected function loadApplicationServices()
     {
-        $serviceMappings = Config::get('services');
+        $services = Config::get('app.services');
 
-        $this->loadServices($serviceMappings);
+        $this->loadServices($services['mappings']);
+        $this->loadAliases($services['aliases']);
     }
 
-    protected function loadServices($serviceMappings)
+    protected function loadServices(array $serviceMappings)
     {
         foreach($serviceMappings as $serviceName => $serviceProvider) {
             if (class_exists($serviceProvider)) {
@@ -54,16 +58,31 @@ class Container
         }
     }
 
+    protected function loadAliases(array $aliases)
+    {
+        foreach($aliases as $aliasName => $serviceName) {
+            if(!isset($this->services[$serviceName])) {
+                throw new \Exception('An alias was provided to undefined service '.$serviceName);
+            }
+
+            $this->aliases[$aliasName] = $serviceName;
+        }
+    }
+
     public function registerService($serviceName, $serviceProviderClass)
     {
         $this->services[$serviceName] = $serviceProviderClass;
     }
 
-    public function get($serviceName)
+    public function get($serviceNameOrAlias)
     {
-        if (!array_key_exists($serviceName, $this->services)) {
+        $isServiceName = array_key_exists($serviceNameOrAlias, $this->services);
+        $isAlias       = array_key_exists($serviceNameOrAlias, $this->aliases);
+        if (!$isServiceName && !$isAlias) {
             return null;
         }
+
+        $serviceName = $isAlias ? $this->aliases[$serviceNameOrAlias] : $serviceNameOrAlias;
 
         $serviceProviderClass = $this->services[$serviceName];
         $isSingleton          = $serviceProviderClass::isSingleton();

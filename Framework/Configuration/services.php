@@ -1,8 +1,13 @@
 <?php
 
 return [
-    'Bespoke\Http\Request'    => 'Bespoke\ServiceProviders\RequestProvider',
-    'request'                 => 'Bespoke\ServiceProviders\RequestProvider',
-    'Psr\Log\LoggerInterface' => 'Bespoke\ServiceProviders\FileLoggerProvider',
-    'logger'                  => 'Bespoke\ServiceProviders\FileLoggerProvider',
+    'mappings' => [
+        'Bespoke\Http\Request'    => 'Bespoke\ServiceProviders\RequestProvider',
+        'Psr\Log\LoggerInterface' => 'Bespoke\ServiceProviders\FileLoggerProvider',
+
+    ],
+    'aliases'  => [
+        'request' => 'Bespoke\Http\Request',
+        'logger'  => 'Psr\Log\LoggerInterface',
+    ]
 ];
