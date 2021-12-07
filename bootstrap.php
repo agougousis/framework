@@ -1,7 +1,7 @@
 <?php
 
-use Bespoke\Components\Config;
-use Bespoke\DotEnv;
+use Bespoke\Tools\Config;
+use Bespoke\Tools\DotEnv;
 
 define('ROOT_PATH', __DIR__);
 define('FRAMEWORK_PATH', __DIR__ . '/Framework');

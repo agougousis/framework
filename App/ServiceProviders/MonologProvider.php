@@ -8,7 +8,7 @@ use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger as MonologLogger;
 use Psr\Log\LoggerInterface;
-use Bespoke\Components\Config;
+use Bespoke\Tools\Config;
 
 class MonologProvider
 {

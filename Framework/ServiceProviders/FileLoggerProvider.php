@@ -2,7 +2,7 @@
 
 namespace Bespoke\ServiceProviders;
 
-use Bespoke\Components\Config;
+use Bespoke\Tools\Config;
 use Bespoke\Components\Container;
 use Bespoke\Services\FileLogger;
 use Bespoke\Services\MonologLogger;

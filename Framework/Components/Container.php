@@ -2,6 +2,7 @@
 
 namespace Bespoke\Components;
 
+use Bespoke\Tools\Config;
 use Bespoke\Exceptions\InvalidServiceDefinitionException;
 
 class Container

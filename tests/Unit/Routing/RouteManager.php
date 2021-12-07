@@ -76,7 +76,7 @@ class RouterTest extends TestCase
     {
         $demoFilesDirectory = realpath(__DIR__.'/../../demoFiles/routes/');
 
-        $mockedConfig = \Mockery::mock('alias:App\Components\Config');
+        $mockedConfig = \Mockery::mock('alias:App\Tools\Config');
 
         $mockedConfig
             ->shouldReceive('get')

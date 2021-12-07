@@ -1,6 +1,6 @@
 <?php
 
-namespace Bespoke\Components;
+namespace Bespoke\Tools;
 
 use DirectoryIterator;
 

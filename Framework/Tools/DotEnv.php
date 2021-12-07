@@ -1,6 +1,6 @@
 <?php
 
-namespace Bespoke;
+namespace Bespoke\Tools;
 
 /**
  * Environment-specific configuration
